@@ -6,8 +6,8 @@ services:
     environment:
       TZ: America/Sao_Paulo
       POSTGRES_DB: wiki
-      POSTGRES_PASSWORD: wikijsrocks
-      POSTGRES_USER: wikijs
+      POSTGRES_PASSWORD: wiki
+      POSTGRES_USER: wiki
     logging:
       driver: ”none”
     restart: unless-stopped
@@ -23,8 +23,8 @@ services:
       DB_TYPE: postgres
       DB_HOST: db
       DB_PORT: 5432
-      DB_USER: wikijs
-      DB_PASS: wikijsrocks
+      DB_USER: wiki
+      DB_PASS: wiki
       DB_NAME: wiki
       OFFLINE_ACTIVE: 1
     restart: unless-stopped

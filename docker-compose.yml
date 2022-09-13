@@ -1,0 +1,35 @@
+version: ”3”
+services:
+
+  db:
+    image: postgres:11-alpine
+    environment:
+      TZ: America/Sao_Paulo
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: wikijsrocks
+      POSTGRES_USER: wikijs
+    logging:
+      driver: ”none”
+    restart: unless-stopped
+    volumes:
+      - /var/volwiki/:/var/lib/postgresql/data
+
+  wiki:
+    image: ghcr.io/requarks/wiki:2
+    depends_on:
+      - db
+    environment:
+      TZ: America/Sao_Paulo
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: wikijsrocks
+      DB_NAME: wiki
+      OFFLINE_ACTIVE: 1
+    restart: unless-stopped
+    volumes:
+      - ./sideload:/wiki/data/sideload
+      - ./config.yml:/wiki/config.yml
+    ports:
+      - ”80:3000”

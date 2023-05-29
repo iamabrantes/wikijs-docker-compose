@@ -1,18 +1,17 @@
-version: ”3”
+version: "3"
 services:
-
   db:
-    image: postgres:11-alpine
+    image: postgres:13-alpine
     environment:
       TZ: America/Sao_Paulo
       POSTGRES_DB: wiki
       POSTGRES_PASSWORD: wiki
       POSTGRES_USER: wiki
-    logging:
-      driver: ”none”
     restart: unless-stopped
     volumes:
       - /var/volwiki/:/var/lib/postgresql/data
+    networks:
+      - wiki
 
   wiki:
     image: ghcr.io/requarks/wiki:2
@@ -28,8 +27,11 @@ services:
       DB_NAME: wiki
       OFFLINE_ACTIVE: 1
     restart: unless-stopped
-    volumes:
-      - ./sideload:/wiki/data/sideload
-      - ./config.yml:/wiki/config.yml
     ports:
-      - ”80:3000”
+      - 8080:3000
+    networks:
+      - wiki
+
+networks:
+  wiki:
+
